@@ -109,10 +109,9 @@ scene.py (Manim) ──narrate.py──────┘  every animation block is
 Claude looks at the stills before it reports, so it catches overlapping text and leftover shapes itself.
 A complete example lives in [`assets/video/example/`](skills/explain/assets/video/example/).
 
-[![A frame from the example video](docs/video-still.png)](docs/demo-softmax-temperature.mp4)
+https://github.com/user-attachments/assets/1cd5da88-f66a-422b-b6bf-7bf375abfbf5
 
 The example above: 37 seconds, voiced by Kokoro on a laptop CPU, bars computed with the real softmax.
-[Watch the MP4](docs/demo-softmax-temperature.mp4).
 
 ## What is installed where
 
