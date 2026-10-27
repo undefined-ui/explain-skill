@@ -24,35 +24,35 @@ Polish, and more).
 
 ## Install (one command)
 
-**macOS / Linux**
+```bash
+npx skills add undefined-ui/explain-skill -g
+```
+
+That is all. It works on macOS, Linux and Windows (Node.js 22.20+), through the
+[skills](https://github.com/vercel-labs/skills) CLI. Restart Claude Code after you install.
+
+Text, diagram and HTML modes work at once. The first time you ask for a video, Claude tells you that video
+mode needs a one-time download (about 400 MB: [uv](https://docs.astral.sh/uv/), Python 3.12, Manim, Kokoro,
+Piper), then sets it up by itself. No ffmpeg and no LaTeX needed.
+
+<details>
+<summary>Other ways to install (video ready in advance, no Node.js, or as a plugin)</summary>
+
+Install the skill and set up video mode in one step:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/undefined-ui/explain-skill/main/install.sh | bash
 ```
-
-**Windows (PowerShell)**
 ```powershell
 irm https://raw.githubusercontent.com/undefined-ui/explain-skill/main/install.ps1 | iex
 ```
+Add `-s -- --no-video` after `bash`, or set `$env:EXPLAIN_NO_VIDEO = 1` first, to skip the video setup.
 
-This copies the skill to `~/.claude/skills/explain`, installs [uv](https://docs.astral.sh/uv/) if needed,
-builds a Python 3.12 environment with Manim, Kokoro and Piper, and downloads the Kokoro voice model.
-About 400 MB in total. No ffmpeg and no LaTeX needed.
-
-Text, diagram and HTML modes only (no video, no downloads):
-```bash
-curl -fsSL https://raw.githubusercontent.com/undefined-ui/explain-skill/main/install.sh | bash -s -- --no-video
-```
-```powershell
-$env:EXPLAIN_NO_VIDEO = 1; irm https://raw.githubusercontent.com/undefined-ui/explain-skill/main/install.ps1 | iex
-```
-
-**As a Claude Code plugin** (video setup then runs the first time you ask for a video):
+As a Claude Code plugin:
 ```
 /plugin marketplace add undefined-ui/explain-skill
 /plugin install explain@explain-skill
 ```
-
-Restart Claude Code after you install.
+</details>
 
 ## Use
 
@@ -124,7 +124,8 @@ The example above: 37 seconds, voiced by Kokoro on a laptop CPU, bars computed w
 
 Check the setup at any time: `python ~/.claude/skills/explain/scripts/doctor.py`.
 
-**Uninstall:** delete `~/.claude/skills/explain` and `~/.cache/explain-skill`.
+**Uninstall:** `npx skills remove --global explain`, then delete `~/.cache/explain-skill`.
+(Installed with the script instead? Delete `~/.claude/skills/explain` and `~/.cache/explain-skill`.)
 
 **Linux note:** Manim needs Cairo and Pango headers:
 `sudo apt install build-essential python3-dev libcairo2-dev libpango1.0-dev pkg-config`.
@@ -133,7 +134,8 @@ Check the setup at any time: `python ~/.claude/skills/explain/scripts/doctor.py`
 
 Скилл для Claude Code по посту Карпати: объяснение в четыре ступени. Текст на ASD-STE100, схема в виде
 технического листа, интерактивная HTML-страница и видео в стиле 3Blue1Brown с озвучкой. Ставится одной
-командой (см. выше). Без ключа ElevenLabs голос генерируется локально и бесплатно: английский через Kokoro,
+командой: `npx skills add undefined-ui/explain-skill -g`. Видео-режим докачивается сам при первом запросе
+(около 400 МБ, Claude сначала спросит). Без ключа ElevenLabs голос генерируется локально и бесплатно: английский через Kokoro,
 русский через Piper (`"lang": "ru"` в `narration.json`). Просто напишите: «объясни X через схему»,
 «сделай интерактивную страницу про X», «сделай видео-объяснение про X».
 

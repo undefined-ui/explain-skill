@@ -19,8 +19,9 @@ python scripts/doctor.py      # exit code 2 = video venv missing or broken
 ```
 If it is missing, tell the user that setup downloads about 400 MB, then run:
 ```bash
-uv run --no-project --python 3.12 scripts/setup.py
+python scripts/setup.py          # installs uv first if needed
 ```
+With no system Python: `uv run --no-project --python 3.12 scripts/setup.py`.
 
 Voice engine, picked by `tts.py --engine auto`:
 

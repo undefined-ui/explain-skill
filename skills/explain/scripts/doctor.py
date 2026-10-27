@@ -30,7 +30,7 @@ def main() -> int:
         imports_ok = r.returncode == 0
         rows.append(("video venv", f"OK, manim {r.stdout.strip()}" if imports_ok else "BROKEN, run setup.py --force"))
     else:
-        rows.append(("video venv", "MISSING, run: uv run --no-project --python 3.12 scripts/setup.py"))
+        rows.append(("video venv", "MISSING, run: python scripts/setup.py (about 400 MB)"))
 
     has_key = bool(os.environ.get("ELEVENLABS_API_KEY"))
     rows.append(("ElevenLabs key", "set" if has_key else "not set (optional)"))

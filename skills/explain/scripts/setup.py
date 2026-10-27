@@ -2,11 +2,13 @@
 """One-time setup for video mode: a Python 3.12 venv with Manim + local TTS, and the Kokoro voice model.
 
     uv run --no-project --python 3.12 setup.py      # what install.sh / install.ps1 run
+    python setup.py                                  # same; installs uv first if it is missing
     python setup.py --force                          # rebuild the venv
     python setup.py --skip-models                    # packages only
 
-Needs uv (https://docs.astral.sh/uv/). Downloads about 400 MB in total. Safe to run again:
-finished steps are skipped. Standard library only, so any Python 3.8+ can start it.
+Uses uv (https://docs.astral.sh/uv/) and installs it with the official installer if needed.
+Downloads about 400 MB in total. Safe to run again: finished steps are skipped.
+Standard library only, so any Python 3.8+ can start it.
 """
 
 from __future__ import annotations
@@ -50,15 +52,27 @@ def download(url: str, dest: Path) -> None:
     tmp.replace(dest)
 
 
+def install_uv() -> str | None:
+    step("Installing uv (Python manager, https://docs.astral.sh/uv/)")
+    if platform.system() == "Windows":
+        cmd = ["powershell", "-NoProfile", "-ExecutionPolicy", "ByPass", "-c",
+               "irm https://astral.sh/uv/install.ps1 | iex"]
+    else:
+        cmd = ["sh", "-c", "curl -LsSf https://astral.sh/uv/install.sh | sh"]
+    if subprocess.run(cmd).returncode != 0:
+        return None
+    return find_uv()
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--force", action="store_true", help="delete and rebuild the venv")
     ap.add_argument("--skip-models", action="store_true", help="do not download the Kokoro model")
     args = ap.parse_args()
 
-    uv = find_uv()
+    uv = find_uv() or install_uv()
     if not uv:
-        print("uv is not installed. Install it, then run this again:\n"
+        print("Could not install uv. Install it by hand, then run this again:\n"
               "  macOS/Linux: curl -LsSf https://astral.sh/uv/install.sh | sh\n"
               "  Windows:     powershell -c \"irm https://astral.sh/uv/install.ps1 | iex\"", file=sys.stderr)
         return 1

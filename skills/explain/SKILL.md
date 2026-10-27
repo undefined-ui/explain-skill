@@ -72,8 +72,10 @@ with real interaction (sliders that drive a live model, step-through, hover defi
 
 Read [references/video.md](references/video.md) before you write anything. Short version:
 
-1. Check the toolchain: `python scripts/doctor.py`. If it reports that video setup is missing, tell the user
-   it downloads about 400 MB (Manim, Kokoro voice model), then run `uv run --no-project --python 3.12 scripts/setup.py`.
+1. Check the toolchain: `python scripts/doctor.py`. If it reports that video setup is missing (normal on the
+   first video after `npx skills add`), tell the user it downloads about 400 MB (Manim, Kokoro voice model),
+   then run `python scripts/setup.py`. It installs uv if needed. With no system Python, run
+   `uv run --no-project --python 3.12 scripts/setup.py` instead.
 2. Write `explainers/<slug>/narration.json` (the script, in segments).
 3. Make the voice track: `"$PY" scripts/tts.py explainers/<slug>/narration.json`
    (ElevenLabs if `ELEVENLABS_API_KEY` is set, otherwise free local Kokoro or Piper).
