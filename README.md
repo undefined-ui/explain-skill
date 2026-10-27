@@ -130,15 +130,6 @@ Check the setup at any time: `python ~/.claude/skills/explain/scripts/doctor.py`
 **Linux note:** Manim needs Cairo and Pango headers:
 `sudo apt install build-essential python3-dev libcairo2-dev libpango1.0-dev pkg-config`.
 
-## По-русски
-
-Скилл для Claude Code по [посту Карпати](https://x.com/karpathy/status/2105819303471976479): объяснение в четыре ступени. Текст на ASD-STE100, схема в виде
-технического листа, интерактивная HTML-страница и видео в стиле 3Blue1Brown с озвучкой. Ставится одной
-командой: `npx skills add undefined-ui/explain-skill -g`. Видео-режим докачивается сам при первом запросе
-(около 400 МБ, Claude сначала спросит). Без ключа ElevenLabs голос генерируется локально и бесплатно: английский через Kokoro,
-русский через Piper (`"lang": "ru"` в `narration.json`). Просто напишите: «объясни X через схему»,
-«сделай интерактивную страницу про X», «сделай видео-объяснение про X».
-
 ## Credits
 
 - Idea and the ladder: [Andrej Karpathy's post](https://x.com/karpathy/status/2105819303471976479).
