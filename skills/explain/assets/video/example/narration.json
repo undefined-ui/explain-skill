@@ -1,0 +1,32 @@
+{
+  "title": "Softmax temperature",
+  "lang": "en",
+  "voice": {"kokoro": "am_michael"},
+  "segments": [
+    {
+      "id": "hook",
+      "text": "A language model does not pick the next word directly. It gives every word a score. Then it rolls weighted dice.",
+      "pause": 0.4
+    },
+    {
+      "id": "softmax",
+      "text": "Softmax turns the scores into probabilities. Each score becomes a positive number, and together they add up to one.",
+      "pause": 0.3
+    },
+    {
+      "id": "cold",
+      "text": "Temperature divides every score before softmax. At a low temperature, the top word wins almost every time.",
+      "pause": 0.3
+    },
+    {
+      "id": "hot",
+      "text": "At a high temperature, the bars get flat. Rare words get picked more often.",
+      "pause": 0.3
+    },
+    {
+      "id": "recap",
+      "text": "So, low temperature gives focused and repeatable text. High temperature gives varied and surprising text.",
+      "pause": 0.8
+    }
+  ]
+}

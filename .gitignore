@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+media/
+stills/
+audio/
+explainers/
+*.mp4
+*.srt
+*.part
+.DS_Store

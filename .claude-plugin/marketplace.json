@@ -1,0 +1,14 @@
+{
+  "name": "explain-skill",
+  "description": "The /explain skill: Karpathy's output ladder (STE text, diagrams, HTML, narrated videos) for Claude Code.",
+  "owner": {
+    "name": "undefined-ui"
+  },
+  "plugins": [
+    {
+      "name": "explain",
+      "source": "./",
+      "description": "Explain anything as STE text, a diagram, an interactive page, or a narrated 3b1b-style video."
+    }
+  ]
+}

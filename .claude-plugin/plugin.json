@@ -1,0 +1,10 @@
+{
+  "name": "explain",
+  "version": "1.0.0",
+  "description": "Karpathy's output ladder as one skill: ASD-STE100 text, technical-sheet diagrams, interactive HTML pages, and 3Blue1Brown-style narrated explainer videos (Manim + ElevenLabs or free local TTS).",
+  "author": { "name": "undefined-ui" },
+  "homepage": "https://github.com/undefined-ui/explain-skill",
+  "repository": "https://github.com/undefined-ui/explain-skill",
+  "license": "MIT",
+  "keywords": ["explain", "ste100", "diagram", "html", "manim", "explainer-video", "tts", "karpathy"]
+}

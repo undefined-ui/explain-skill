@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explain Ladder Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Technical sheet ────────────────────────────────────────────────────
+   Engineering-drawing layout: zone border (1-8 / A-D), lettered panels,
+   blue annotations, red for "not this", title block bottom right.
+   Replace the sample panels. Keep the frame, tokens and components.     */
+:root {
+  --paper: #fbfaf7;
+  --ink: #1b1b1b;
+  --muted: #6b6b6b;
+  --line: #2b2b2b;
+  --hair: #c9c6bf;
+  --blue: #1f5aa6;
+  --blue-fill: #dde8f6;
+  --red: #c0392b;
+  --row: #f1efea;
+  --sans: "IBM Plex Sans", system-ui, sans-serif;
+  --cond: "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141619; --ink: #e8e6e1; --muted: #9a9890; --line: #d8d5ce; --hair: #3b3e44;
+    --blue: #7fb0ec; --blue-fill: #1d2c40; --red: #ef7b6c; --row: #1b1e22;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141619; --ink: #e8e6e1; --muted: #9a9890; --line: #d8d5ce; --hair: #3b3e44;
+  --blue: #7fb0ec; --blue-fill: #1d2c40; --red: #ef7b6c; --row: #1b1e22;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font: 14px/1.45 var(--sans); padding: 16px; }
+
+/* frame with zone markers */
+.sheet { display: grid; grid-template: 22px 1fr 22px / 22px minmax(0, 1fr) 22px; border: 1.5px solid var(--line); max-width: 1600px; margin: 0 auto; }
+.zx { display: grid; grid-template-columns: repeat(8, 1fr); }
+.zy { display: grid; grid-template-rows: repeat(4, 1fr); }
+.zx span, .zy span { display: grid; place-items: center; font: 10px var(--mono); color: var(--muted); }
+.zx span + span { border-left: 1px solid var(--line); }
+.zy span + span { border-top: 1px solid var(--line); }
+.top { grid-column: 2; border-bottom: 1px solid var(--line); }
+.bottom { grid-column: 2; grid-row: 3; border-top: 1px solid var(--line); }
+.left { grid-row: 2; grid-column: 1; border-right: 1px solid var(--line); }
+.right { grid-row: 2; grid-column: 3; border-left: 1px solid var(--line); }
+.drawing { grid-row: 2; grid-column: 2; padding: 22px; }
+.panels { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 22px; }
+.s4 { grid-column: span 4; } .s5 { grid-column: span 5; } .s6 { grid-column: span 6; }
+.s7 { grid-column: span 7; } .s8 { grid-column: span 8; } .s12 { grid-column: span 12; }
+
+/* panel */
+.panel { border: 1.5px solid var(--line); display: flex; flex-direction: column; min-width: 0; }
+.ph { display: flex; align-items: stretch; border-bottom: 1.5px solid var(--line); }
+.badge { width: 34px; display: grid; place-items: center; background: var(--ink); color: var(--paper); font: 600 15px var(--cond); }
+.ph h2 { margin: 0; padding: 7px 12px; font: 600 17px var(--cond); flex: 1; }
+.ph .meta { align-self: center; padding-right: 12px; font: 10.5px var(--mono); color: var(--muted); }
+.pb { padding: 16px 18px; flex: 1; }
+.note { font-size: 11.5px; font-style: italic; color: var(--muted); margin: 12px 0 0; }
+.foot { border-top: 1px solid var(--hair); margin-top: 14px; padding-top: 10px; font-size: 11.5px; color: var(--muted); }
+
+/* svg figures */
+.fig { width: 100%; height: auto; display: block; }
+.fig text { fill: var(--ink); font-family: var(--sans); }
+.fig .mono { font-family: var(--mono); fill: var(--muted); }
+.fig .ann { fill: var(--blue); font-family: var(--sans); }
+.fig .box { fill: var(--paper); stroke: var(--line); stroke-width: 1.5; }
+.fig .key { fill: var(--blue-fill); stroke: var(--blue); stroke-width: 1.5; }
+.fig .col { fill: var(--blue-fill); stroke: none; opacity: .55; }
+.fig .thin { stroke: var(--line); stroke-width: 1; fill: none; }
+.fig .lead { stroke: var(--blue); stroke-width: 1; fill: none; }
+
+/* annotated sentence: <span class="m" data-n="label">words</span>, add .lo to drop a label one row */
+.orig { font: 12px var(--mono); color: var(--muted); margin: 0 0 4px; }
+.orig b { color: var(--red); font-weight: 400; }
+.annot { font: 15px/3.8 var(--mono); margin: -14px 0 0; padding-bottom: 6px; overflow-wrap: anywhere; }
+.m { position: relative; border-bottom: 1.5px solid var(--blue); padding-bottom: 3px; }
+.m::after { content: attr(data-n); position: absolute; left: 0; top: calc(100% + 5px); font: 10.5px var(--sans); color: var(--blue); white-space: nowrap; }
+.m.lo::after { top: calc(100% + 19px); }
+.m.bad { border-bottom-color: var(--red); } .m.bad::after { color: var(--red); }
+.ruler { display: flex; align-items: center; gap: 8px; font: 10.5px var(--mono); color: var(--muted); margin: 10px 0 6px; }
+.ruler::before, .ruler::after { content: ""; flex: 1; border-top: 1px solid var(--muted); }
+.sub { font: 600 12.5px var(--sans); margin: 18px 0 6px; }
+
+/* spec table */
+table.spec { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.spec th { text-align: left; font: 400 10.5px var(--mono); color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.spec td { padding: 7px 8px; border-bottom: 1px solid var(--hair); vertical-align: top; }
+.spec tbody tr:nth-child(odd) td { background: var(--row); }
+.spec .code { font-family: var(--mono); }
+.ok { color: var(--blue); white-space: nowrap; } .ok::before { content: "\2713\00a0 "; }
+.no { color: var(--red); white-space: nowrap; } .no::before { content: "\2715\00a0 "; }
+
+/* gauge: <div class="gauge" data-v="20" data-max="30" data-step="5"> */
+.gauge + .gauge { margin-top: 14px; }
+.g-head { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; }
+.g-head b { font: 400 11px var(--mono); color: var(--blue); }
+.g-bar { position: relative; height: 12px; margin-top: 5px; border: 1px solid var(--hair); background: var(--row); }
+.g-bar i { position: absolute; inset: 0 auto 0 0; background: var(--blue-fill); border-right: 2px solid var(--blue); }
+.g-scale { position: relative; height: 14px; font: 9.5px var(--mono); color: var(--muted); }
+.g-scale span { position: absolute; top: 2px; transform: translateX(-50%); }
+
+/* timeline */
+.timeline { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; position: relative; padding-top: 6px; }
+.timeline::before { content: ""; position: absolute; left: 6%; right: 6%; top: 37px; border-top: 1px solid var(--line); }
+.timeline .ev { text-align: center; padding: 0 6px; position: relative; }
+.timeline .yr { font: 500 15px var(--cond); }
+.timeline .dot { width: 11px; height: 11px; border: 1.5px solid var(--line); border-radius: 50%; background: var(--paper); margin: 6px auto 8px; position: relative; }
+.timeline .tx { font-size: 11.5px; color: var(--muted); }
+
+/* title block */
+.titleblock { display: grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--line); }
+.titleblock > div { padding: 6px 10px; border-top: 1px solid var(--line); min-width: 0; }
+.titleblock > div:nth-child(even) { border-left: 1px solid var(--line); }
+.titleblock .wide { grid-column: span 2; border-top: 0; }
+.titleblock .wide + div { border-left: 0; }
+.titleblock small { display: block; font: 9.5px var(--mono); color: var(--muted); }
+.titleblock strong { font: 500 14px var(--cond); }
+.titleblock .wide strong { font-size: 18px; font-weight: 600; }
+
+@media (max-width: 980px) {
+  .panels > * { grid-column: span 12; }
+  .zx span:nth-child(n+5), .zy span:nth-child(n+3) { visibility: hidden; }
+  .drawing { padding: 14px; }
+}
+@media (max-width: 560px) {
+  body { padding: 8px; }
+  .sheet { grid-template: 0 1fr 0 / 0 minmax(0, 1fr) 0; }
+  .zx, .zy { display: none; }
+  .drawing { padding: 10px; }
+  .pb { padding: 12px; }
+  .annot { font-size: 13px; }
+  .ph .meta { display: none; }
+  table.spec { display: block; overflow-x: auto; }
+  .timeline { grid-auto-flow: row; gap: 10px; }
+  .timeline::before { display: none; }
+}
+@media print {
+  @page { size: A3 landscape; margin: 8mm; }
+  body { padding: 0; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="zx top"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+  <div class="zy left"><span>A</span><span>B</span><span>C</span><span>D</span></div>
+  <div class="zy right"><span>A</span><span>B</span><span>C</span><span>D</span></div>
+  <div class="zx bottom"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+
+  <main class="drawing">
+    <div class="panels">
+
+      <!-- A: figure (inline SVG) -->
+      <section class="panel s5">
+        <header class="ph"><span class="badge">A</span><h2>The output ladder</h2><span class="meta">4 rungs</span></header>
+        <div class="pb">
+          <svg class="fig" viewBox="0 0 520 290" role="img" aria-label="Four rungs, each higher one easier to absorb: text, diagram, web page, video">
+            <defs>
+              <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="var(--blue)"/>
+              </marker>
+            </defs>
+            <rect class="col" x="136" y="202" width="112" height="60"/>
+            <rect class="col" x="256" y="152" width="112" height="110"/>
+            <rect class="col" x="376" y="102" width="112" height="160"/>
+            <line class="thin" x1="8" y1="262" x2="512" y2="262"/>
+            <g transform="translate(16,196)">
+              <rect class="box" width="112" height="56"/>
+              <text class="mono" x="10" y="16" font-size="9">RUNG 1</text>
+              <text x="10" y="34" font-size="15" font-weight="600">Text</text>
+              <text class="mono" x="10" y="48" font-size="10">ASD-STE100</text>
+            </g>
+            <g transform="translate(136,146)">
+              <rect class="box" width="112" height="56"/>
+              <text class="mono" x="10" y="16" font-size="9">RUNG 2</text>
+              <text x="10" y="34" font-size="15" font-weight="600">Diagram</text>
+              <text class="mono" x="10" y="48" font-size="10">tech sheet</text>
+            </g>
+            <g transform="translate(256,96)">
+              <rect class="box" width="112" height="56"/>
+              <text class="mono" x="10" y="16" font-size="9">RUNG 3</text>
+              <text x="10" y="34" font-size="15" font-weight="600">Web page</text>
+              <text class="mono" x="10" y="48" font-size="10">interactive HTML</text>
+            </g>
+            <g transform="translate(376,46)">
+              <rect class="key" width="112" height="56"/>
+              <text class="mono" x="10" y="16" font-size="9">RUNG 4</text>
+              <text x="10" y="34" font-size="15" font-weight="600">Video</text>
+              <text class="mono" x="10" y="48" font-size="10">3b1b + voice</text>
+            </g>
+            <line class="lead" x1="20" y1="172" x2="356" y2="24" marker-end="url(#arrow)"/>
+            <text class="ann" x="150" y="104" font-size="12" transform="rotate(-23.8 150 104)">easier to absorb</text>
+            <text class="mono" x="16" y="280" font-size="10">cost to produce: low</text>
+            <text class="mono" x="512" y="280" font-size="10" text-anchor="end">high</text>
+          </svg>
+          <p class="note">Each rung is easier to absorb than the one below it. Climb as high as the topic earns.</p>
+        </div>
+      </section>
+
+      <!-- B: annotated example -->
+      <section class="panel s7">
+        <header class="ph"><span class="badge">B</span><h2>Anatomy of an STE sentence</h2><span class="meta">annotated example</span></header>
+        <div class="pb">
+          <p class="orig">Original, not STE: <b>It is imperative</b> that the operator <b>ensures</b> the reservoir is <b>replenished prior to commencing</b> operation.</p>
+          <div class="ruler">13 words, limit 20</div>
+          <p class="annot"><span class="m" data-n="approved verb, command">Make sure</span> that the <span class="m lo" data-n="technical name">hydraulic reservoir</span> is <span class="m" data-n='not "replenished"'>full</span> <span class="m lo" data-n='not "prior to"'>before</span> you <span class="m" data-n="active voice">start</span> the <span class="m lo" data-n='not "commencing"'>operation</span>.</p>
+          <div class="sub">Safety instruction</div>
+          <p class="annot"><span class="m bad" data-n="WARNING = injury">WARNING:</span> <span class="m lo" data-n="first: a simple command">Do not touch the brake unit until it is cool.</span> <span class="m" data-n="then: the risk">Hot parts can cause injury.</span></p>
+          <div class="sub">Descriptive sentence</div>
+          <p class="annot">The pump <span class="m" data-n="simple present tense">supplies</span> fuel to the engine when the switch is on.</p>
+          <div class="ruler">12 words, limit 25 · max 6 sentences per paragraph</div>
+        </div>
+      </section>
+
+      <!-- C: spec table -->
+      <section class="panel s7">
+        <header class="ph"><span class="badge">C</span><h2>Modes</h2><span class="meta">/explain &lt;topic&gt; [mode]</span></header>
+        <div class="pb">
+          <table class="spec">
+            <thead><tr><th>Mode</th><th>Output</th><th>Best for</th><th>Needs</th></tr></thead>
+            <tbody>
+              <tr><td class="code">ste80</td><td>Text, 80% of STE</td><td>Chat answers</td><td><span class="ok">nothing</span></td></tr>
+              <tr><td class="code">ste</td><td>Strict STE text + lint</td><td>Procedures, specs</td><td><span class="ok">Python</span></td></tr>
+              <tr><td class="code">diagram</td><td>This sheet</td><td>Structure, flow</td><td><span class="ok">browser</span></td></tr>
+              <tr><td class="code">html</td><td>Interactive page</td><td>Things to try</td><td><span class="ok">browser</span></td></tr>
+              <tr><td class="code">video</td><td>MP4 with narration</td><td>Intuition, math</td><td><span class="ok">setup.py</span></td></tr>
+            </tbody>
+          </table>
+          <div class="foot">Video voice: ElevenLabs if a key is set. Otherwise Kokoro or Piper on local compute.</div>
+        </div>
+      </section>
+
+      <!-- D: gauges -->
+      <section class="panel s5">
+        <header class="ph"><span class="badge">D</span><h2>Writing rule limits</h2><span class="meta">maximum values</span></header>
+        <div class="pb">
+          <div class="gauge" data-v="20" data-max="30" data-step="5"><div class="g-head"><span>Procedural sentence</span><b>max 20 words</b></div></div>
+          <div class="gauge" data-v="25" data-max="30" data-step="5"><div class="g-head"><span>Descriptive sentence</span><b>max 25 words</b></div></div>
+          <div class="gauge" data-v="6" data-max="10" data-step="1"><div class="g-head"><span>Descriptive paragraph</span><b>max 6 sentences</b></div></div>
+          <div class="gauge" data-v="3" data-max="5" data-step="1"><div class="g-head"><span>Noun cluster</span><b>max 3 words</b></div></div>
+        </div>
+      </section>
+
+      <!-- E: timeline -->
+      <section class="panel s7">
+        <header class="ph"><span class="badge">E</span><h2>History of ASD-STE100</h2><span class="meta">timeline</span></header>
+        <div class="pb">
+          <div class="timeline">
+            <div class="ev"><div class="yr">1979</div><div class="dot"></div><div class="tx">AECMA starts work on controlled English for airlines</div></div>
+            <div class="ev"><div class="yr">1986</div><div class="dot"></div><div class="tx">First AECMA Simplified English Guide</div></div>
+            <div class="ev"><div class="yr">2005</div><div class="dot"></div><div class="tx">Becomes ASD-STE100 after AECMA joins ASD in 2004</div></div>
+            <div class="ev"><div class="yr">Now</div><div class="dot"></div><div class="tx">Free download, revised by the ASD STEMG</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- F: title block (keep it, fill it) -->
+      <section class="s5">
+        <div class="titleblock">
+          <div class="wide"><small>Title</small><strong>The explain ladder: overview</strong></div>
+          <div><small>Subject</small><strong>Output formats for LLMs</strong></div>
+          <div><small>Mode</small><strong>diagram</strong></div>
+          <div><small>Source</small><strong>A. Karpathy, X post, 2026-10-02</strong></div>
+          <div><small>Date</small><strong>2026-10-27</strong></div>
+          <div><small>Made with</small><strong>/explain</strong></div>
+          <div><small>Sheet</small><strong>1 of 1</strong></div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+<script>
+// ?theme=light or ?theme=dark overrides the system setting.
+const theme = new URLSearchParams(location.search).get("theme");
+if (theme) document.documentElement.dataset.theme = theme;
+
+// Gauges: bar width and scale ticks from data-v / data-max / data-step.
+document.querySelectorAll(".gauge").forEach(g => {
+  const v = +g.dataset.v, max = +g.dataset.max, step = +g.dataset.step || 1;
+  const bar = document.createElement("div");
+  bar.className = "g-bar";
+  bar.innerHTML = `<i style="width:${(v / max) * 100}%"></i>`;
+  const scale = document.createElement("div");
+  scale.className = "g-scale";
+  for (let t = 0; t <= max; t += step) {
+    scale.insertAdjacentHTML("beforeend", `<span style="left:${(t / max) * 100}%">${t}</span>`);
+  }
+  g.append(bar, scale);
+});
+</script>
+</body>
+</html>
