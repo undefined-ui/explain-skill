@@ -2,9 +2,9 @@
 
 > "As LLMs get better, they will do more and more of the legwork autonomously, and a lot more of our work
 > will rise up the abstractions into oversight and understanding."
-> — [Andrej Karpathy](https://x.com/karpathy), X post, 2 Oct 2026
+> — [Andrej Karpathy](https://x.com/karpathy), [X post, 2 Oct 2026](https://x.com/karpathy/status/2105819303471976479)
 
-Karpathy's post gives a ladder of output formats for understanding what models produce. Each rung is
+[Karpathy's post](https://x.com/karpathy/status/2105819303471976479) gives a ladder of output formats for understanding what models produce. Each rung is
 easier to absorb than the one below it. This skill implements all four rungs in Claude Code and installs
 with one command.
 
@@ -132,7 +132,7 @@ Check the setup at any time: `python ~/.claude/skills/explain/scripts/doctor.py`
 
 ## По-русски
 
-Скилл для Claude Code по посту Карпати: объяснение в четыре ступени. Текст на ASD-STE100, схема в виде
+Скилл для Claude Code по [посту Карпати](https://x.com/karpathy/status/2105819303471976479): объяснение в четыре ступени. Текст на ASD-STE100, схема в виде
 технического листа, интерактивная HTML-страница и видео в стиле 3Blue1Brown с озвучкой. Ставится одной
 командой: `npx skills add undefined-ui/explain-skill -g`. Видео-режим докачивается сам при первом запросе
 (около 400 МБ, Claude сначала спросит). Без ключа ElevenLabs голос генерируется локально и бесплатно: английский через Kokoro,
@@ -141,7 +141,7 @@ Check the setup at any time: `python ~/.claude/skills/explain/scripts/doctor.py`
 
 ## Credits
 
-- Idea and the ladder: [Andrej Karpathy](https://x.com/karpathy).
+- Idea and the ladder: [Andrej Karpathy's post](https://x.com/karpathy/status/2105819303471976479).
 - [ASD-STE100](https://www.asd-ste100.org/) is a specification of ASD. This repo has its own summary of the
   rules, not the specification. Get the official text free from asd-ste100.org.
 - [Manim Community](https://www.manim.community/), [kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx),
